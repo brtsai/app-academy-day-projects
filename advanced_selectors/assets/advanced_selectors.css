@@ -63,7 +63,11 @@ input[type="submit"]:last-child {
   background-color: gold
 }
 
-li:nth-child(2n) {
+input:last-child:hover {
+    -webkit-filter: brightness(90%);
+}
+
+ol li:nth-child(2n) {
   background-color: lightgray;
 }
 
