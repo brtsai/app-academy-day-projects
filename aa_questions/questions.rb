@@ -1,6 +1,12 @@
 require 'sqlite3'
 require 'singleton'
 
+class ModelBase
+
+
+
+end
+
 class QuestionDBConnection < SQLite3::Database
   include Singleton
 
@@ -13,6 +19,11 @@ end
 
 class User
   attr_accessor :fname, :lname
+
+  def self.all
+    data = QuestionDBConnection.instance.execute("SELECT * FROM users")
+    data.map { |datum| User.new(datum) }
+  end
 
   def initialize(options)
     @id = options['id']
@@ -120,12 +131,18 @@ class Question
     @author_id = options['author_id']
   end
 
+  def self.all
+    data = QuestionDBConnection.instance.execute("SELECT * FROM questions")
+    data.map { |datum| Question.new(datum) }
+  end
+
   def self.find_by_id(id)
+    table_name = 'questions'
     data = QuestionDBConnection.instance.execute(<<-SQL, id)
       SELECT
         *
       FROM
-        questions
+        #{table_name}
       WHERE
         id = ?
     SQL
@@ -210,6 +227,11 @@ class QuestionFollow
     @question_id = options['question_id']
   end
 
+  def self.all
+    data = QuestionDBConnection.instance.execute("SELECT * FROM question_follow")
+    data.map { |datum| QuestionFollow.new(datum) }
+  end
+
   def self.find_by_id(id)
     data = QuestionDBConnection.instance.execute(<<-SQL, id)
       SELECT
@@ -290,6 +312,11 @@ class Reply
     @parent_id = options['parent_id']
     @user_id = options['user_id']
     @body = options['body']
+  end
+
+  def self.all
+    data = QuestionDBConnection.instance.execute("SELECT * FROM replies")
+    data.map { |datum| Reply.new(datum) }
   end
 
   def self.find_by_id(id)
@@ -384,6 +411,11 @@ class QuestionLike
     @id = options['id']
     @user_id = options['user_id']
     @question_id = options['question_id']
+  end
+
+  def self.all
+    data = QuestionDBConnection.instance.execute("SELECT * FROM question_likes")
+    data.map { |datum| QuestionLike.new(datum) }
   end
 
   def self.find_by_id(id)
