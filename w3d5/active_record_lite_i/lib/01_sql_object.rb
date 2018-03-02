@@ -106,10 +106,21 @@ class SQLObject
 
   def attribute_values
     # ...
+    attributes.map { |k,v| v }
   end
 
   def insert
     # ...
+    columns_not_id = self.class.columns[1..-1]
+    column_names = "(#{columns_not_id.join(',')})"
+    question_marks = "(#{(['?'] * (attribute_values.count)).join(',')})"
+    result = DBConnection.execute(<<-SQL, *attribute_values)
+      INSERT INTO
+        #{self.class.table_name} #{column_names}
+      VALUES
+        #{question_marks}
+    SQL
+    self.send('id='.to_sym, DBConnection.last_insert_row_id)
   end
 
   def update
