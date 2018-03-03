@@ -125,9 +125,27 @@ class SQLObject
 
   def update
     # ...
+    set_line = self.class.columns[1..-1].map do |attr_name|
+      "#{attr_name} = ?"
+    end.join(',')
+    attr_values = attribute_values[1..-1]
+    result = DBConnection.execute(<<-SQL, *attr_values, self.id)
+      UPDATE
+        #{self.class.table_name}
+      SET
+        #{set_line}
+      WHERE
+        id = ?
+    SQL
+
   end
 
   def save
     # ...
+    if self.id.nil?
+      insert
+    else
+      update
+    end
   end
 end
