@@ -20,7 +20,13 @@ class CatsController < ApplicationController
   end
 
   def edit
+    @cat = Cat.find_by(id: params[:id])
 
+    if @cat.nil?
+      render plain: "Cat doesn't exist", status: 404
+    else
+      render :edit
+    end
   end
 
   def show
@@ -34,6 +40,15 @@ class CatsController < ApplicationController
   end
 
   def update
+    @cat = Cat.find_by(id: params[:id])
+
+    if @cat.nil?
+      render plain: "Cat doesn't exist", status: 404
+    elsif @cat.update_attributes(cats_params)
+      redirect_to cat_url(@cat)
+    else
+      render :edit
+    end
 
   end
 
