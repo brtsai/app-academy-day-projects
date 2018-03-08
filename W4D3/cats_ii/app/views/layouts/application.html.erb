@@ -15,7 +15,7 @@
     <h1> Welcome back, <%= current_user.user_name %>! </h1>
     <%= button_to "logout", session_url(current_user.id), method: :delete %>
     <% end %>
-
+    <%= render 'shared/errors' %>
     <%= yield %>
   </body>
 </html>
