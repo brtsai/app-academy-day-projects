@@ -1,0 +1,15 @@
+Login
+
+<%= render 'shared/errors' %>
+
+<form id="login_form" action="<%= session_url %>" method="post">
+  <label for = "user_name"> Username:
+    <input type="text" id = "user_name" name = "user[user_name]" value=""/>
+  </label>
+
+  <label for = "password"> Password:
+    <input type="password" id = "password" name = "user[password]" value=""/>
+  </label>
+
+  <button type="submit" form="login_form">Login</button>
+</form>
