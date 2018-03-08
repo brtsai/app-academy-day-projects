@@ -4,6 +4,11 @@ class User < ApplicationRecord
   validates :password, length: { minimum: 6 }, allow_nil: true
   after_initialize :set_token
 
+  has_many :cats,
+    class_name: :Cat,
+    foreign_key: :user_id,
+    primary_key: :id
+
   attr_reader :password
 
   def self.find_by_credentials(user_name, password)

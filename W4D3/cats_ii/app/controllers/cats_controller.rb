@@ -1,4 +1,13 @@
 class CatsController < ApplicationController
+  before_action :prompt_user_login, only: :new
+
+  def prompt_user_login
+    unless user_is_logged_in?
+      flash[:errors] = ["Please login to create a new cat."]
+      redirect_to 'sessions/new'
+    end
+  end
+
   def index
     @cats = Cat.all
     render :index
@@ -15,7 +24,10 @@ class CatsController < ApplicationController
   end
 
   def create
-    @cat = Cat.new(cat_params)
+    appended_params = cat_params.as_json
+    appended_params[:user_id] = current_user.id
+
+    @cat = Cat.new(appended_params)
     if @cat.save
       redirect_to cat_url(@cat)
     else

@@ -20,11 +20,16 @@ class ApplicationController < ActionController::Base
   end
 
   def redirect_if_logged_in
-    unless session[:session_token].nil? || session[:session_token].empty?
+    if user_is_logged_in?
       flash[:errors] = ["You are already logged in"]
       redirect_to cats_url
     end
   end
+
+  def user_is_logged_in?
+    !(session[:session_token].nil? || session[:session_token].empty?)
+  end
+
   private
 
   def user_params
