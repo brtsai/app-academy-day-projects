@@ -12,13 +12,14 @@
 
     <nav>
       <h1 class="home-title"> <a href="<%= bands_url %>">Music App</a> </h1>
-      <div class="log-in-out-buttons">
+      <aside class="log-in-out-buttons">
         <% if logged_in? %>
           Signed in as <%= current_user.email %>
         <% end %>
         <%= render 'shared/log_in_out' %>
-      </div>
+      </aside>
     </nav>
+
     <%= yield %>
   </body>
 </html>

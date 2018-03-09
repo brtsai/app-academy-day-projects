@@ -14,6 +14,10 @@
  *= require_self
  */
 
+.nav-left-spacer {
+  .log-in-out-buttons.width
+}
+
 section {
   display: flex;
   flex-wrap: nowrap;
@@ -32,6 +36,7 @@ section > form {
 }
 
 .log-in-out-buttons {
+  margin-top: -40px;
   float: right;
   font-size: 12px;
   display: flex;
