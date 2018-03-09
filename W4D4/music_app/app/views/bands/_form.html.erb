@@ -1,0 +1,20 @@
+<% unless @band.persisted? %>
+  <% form_method = "post" %>
+  <% form_action = bands_url %>
+  <% submit_value = "Add Band" %>
+<% else %>
+  <% form_method="patch" %>
+  <% form_action = band_url(@band.id) %>
+  <% submit_value = "Save Changes" %>
+<% end %>
+
+<form action="<%= form_action %>" method="post">
+  <input type="hidden" name="_method" value="<%= form_method %>">
+
+  <label for="band_name">Band Name: </label>
+  <input type="text" id="band_name" name="band[name]" value="<%= @band.name %>">
+  <br>  
+  <input type="submit" value="<%= submit_value %>">
+  
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+</form>
