@@ -40,6 +40,11 @@
   overflow: hidden;
 }
 
+.notifications li:last-child {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
 .notifications li:hover {
   background-color: #eee;
 }

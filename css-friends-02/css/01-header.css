@@ -36,11 +36,9 @@ body {
   background: #000;
 }
 
-
 .header-list {
   display: flex;
 }
-
 
 .header-list > li {
   border-left: 1px solid #ccc;
@@ -48,9 +46,4 @@ body {
 
 .header-list > li:hover {
   background: #000;
-}
-
-.notifications li:last-child {
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
 }
