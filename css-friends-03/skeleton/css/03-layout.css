@@ -4,7 +4,6 @@
   background-color: white;
   width: 900px;
   display: flex;
-  justify-content: center;
   margin: 0 auto;
   border-left: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
@@ -13,4 +12,5 @@
 
 .content-sidebar {
   border-right: 1px solid #ccc;
+  width: 240px;
 }
