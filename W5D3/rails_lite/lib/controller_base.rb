@@ -44,7 +44,6 @@ class ControllerBase
   # pass the rendered html to render_content
   def render(template_name)
     folder_name = self.class.name.underscore
-    invoke_action(template_name)
     template_contents = File.read("lib/../views/#{folder_name}/#{template_name}.html.erb")
     res.write(ERB.new(template_contents).result(binding))
     @res.set_header("Content-Type", "text/html")
