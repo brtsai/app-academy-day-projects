@@ -9,6 +9,7 @@ class ControllerBase
 
   # Setup the controller
   def initialize(req, res)
+    @session = Session.new(req)
     @req = req
     @res = res
     @render_count = 0
@@ -24,6 +25,7 @@ class ControllerBase
   def redirect_to(url)
     @res.redirect(url, 302)
     @render_count += 1
+    session.store_session(@res)
     already_built_response?
   end
 
@@ -34,6 +36,7 @@ class ControllerBase
     @res.write(content)
     @res.set_header("Content-Type", content_type)
     @render_count += 1
+    session.store_session(@res)
     already_built_response?
   end
 
@@ -46,11 +49,13 @@ class ControllerBase
     res.write(ERB.new(template_contents).result(binding))
     @res.set_header("Content-Type", "text/html")
     @render_count += 1
+    session.store_session(@res)
     already_built_response?
   end
 
   # method exposing a `Session` object
   def session
+    @session
   end
 
   # use this with the router to call action_name (:index, :show, :create...)
