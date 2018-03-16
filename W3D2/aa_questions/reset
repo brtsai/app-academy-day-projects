@@ -1,0 +1,3 @@
+#!/bin/bash
+./import
+./s3

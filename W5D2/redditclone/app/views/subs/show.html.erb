@@ -1,0 +1,68 @@
+<p id="notice"><%= notice %></p>
+<%= @sub.title %>
+<%= @sub.description %>
+
+<%= link_to 'Edit', edit_sub_path(@sub) %> |
+<%= link_to 'Back', subs_path %>
+
+<br>
+
+<table>
+  <thead>
+    <tr>
+      <th> Moderators</th>
+    </tr>
+  </thead>
+  <% @sub.moderators.each do |mod| %>
+
+  <tr>
+    <td>
+      <%= mod.username %>
+    </td>
+  </tr>
+  <% end %>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="2"> Posts </th>
+    </tr>
+    <tr>
+      <th colspan="2"> Create Post</th>
+    </tr>
+    <tr>
+      <th colspan="2">
+        <form action="<%= sub_posts_url(@sub) %>" method="post">
+          <%= auth_token %>
+          <label>Title
+            <input type="text" name="post[title]" value="">
+          </label>
+          <label>URL
+            <input type="text" name="post[url]" value="">
+          </label>
+          <label>Content
+            <input type="text" name="post[content]" value="">
+          </label>
+          <input type="submit" name="Create Post">
+        </form>
+    </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @posts.each do |post| %>
+      <tr>
+        <td><%= "#{post.title}"%></td>
+        <td><%= post.url %></td>
+        <td><%= post.content %></td>
+        <td> <form action="<%= post_url(post) %>" method="post">
+          <%= auth_token %>
+          <input type="hidden" name="_method" value="delete">
+          <input type="hidden" name="sub_id" value="<%= @sub.id %>">
+          <input type="submit" value="delete post">
+        </form> </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
