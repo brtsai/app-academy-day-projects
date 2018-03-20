@@ -12,8 +12,11 @@ const canvasEl = document.getElementById("game-canvas");
   canvasEl.height = 500;
 
 const ctx = canvasEl.getContext("2d");
-ctx.fillStyle = "purple";
-ctx.fillRect(0, 0, 500, 500);
+// ctx.fillStyle = "purple";
+// ctx.fillRect(0, 0, 500, 500);
+
+const game = new GameView(ctx);
+  game.start();
 
 window.MovingObject = new MovingObject({pos: [30, 30], vel: [2, 0],
                                        radius: 5, color: "#00FF00"});
@@ -21,11 +24,11 @@ window.MovingObject = new MovingObject({pos: [30, 30], vel: [2, 0],
 
 
 window.MovingObjects = new Array;
-window.MovingObjects.push(new Asteroid([50,50]));
-window.MovingObjects.push(new Asteroid([50,50]));
-window.MovingObjects.push(new Asteroid([50,50]));
-window.MovingObjects.push(new Asteroid([50,50]));
-window.MovingObjects.push(new Asteroid([50,50]));
+window.MovingObjects.push(new Asteroid([30,30]));
+window.MovingObjects.push(new Asteroid([30,30]));
+window.MovingObjects.push(new Asteroid([30,30]));
+window.MovingObjects.push(new Asteroid([30,30]));
+window.MovingObjects.push(new Asteroid([30,30]));
 
 function animate() {
   // game.advanceState();
@@ -40,7 +43,7 @@ function animate() {
   window.MovingObject.move();
   for (var i = 0; i < window.MovingObjects.length; i++) {
     window.MovingObjects[i].draw(ctx);
-    window.MovingObjects[i].move(); 
+    window.MovingObjects[i].move();
   }
   requestAnimationFrame(animate);
 }

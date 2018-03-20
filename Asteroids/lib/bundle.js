@@ -117,11 +117,66 @@ let Bullet = __webpack_require__(1);
 let Ship = __webpack_require__(3);
 
 
+const Game = function (dim_x, dim_y, num_asteroids){
+  this.dim_x = dim_x;
+  this.dim_y = dim_y;
+  this.num_asteroids = num_asteroids;
+  this.asteroids = new Array;
+  this.addAsteroids();
+};
+
+Game.prototype.addAsteroids = function (){
+  for (var i = 0; i < this.num_asteroids; i++){
+    switch(i % 4) {
+      case 0:
+        this.asteroids.push(new Asteroid([0,0]));
+        break;
+
+      case 1:
+        this.asteroids.push(new Asteroid([this.dim_x,0]));
+        break;
+
+      case 2:
+        this.asteroids.push(new Asteroid([this.dim_x, this.dim_y]));
+        break;
+
+      case 3:
+      default:
+        this.asteroids.push(new Asteroid([0,this.dim_y]));
+        break;
+    }
+  }
+};
+
+Game.prototype.draw = function (ctx) {
+
+  ctx.fillStyle="black";
+  ctx.fillRect(0, 0, this.dim_x, this.dim_y);
+
+
+  for (let i = 0; i < this.num_asteroids; i++) {
+    this.asteroids[i].draw(ctx);
+  }
+};
+
+Game.prototype.moveObjects = function () {
+  for (let i = 0; i < this.num_asteroids; i++) {
+    this.asteroids[i].move();
+  }
+};
+
+module.exports = Game;
+
+
 /***/ }),
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 let MovingObject = __webpack_require__(0);
+const Ship = function (){
+};
+
+module.exports = Ship; 
 
 
 /***/ }),
@@ -142,8 +197,11 @@ const canvasEl = document.getElementById("game-canvas");
   canvasEl.height = 500;
 
 const ctx = canvasEl.getContext("2d");
-ctx.fillStyle = "purple";
-ctx.fillRect(0, 0, 500, 500);
+// ctx.fillStyle = "purple";
+// ctx.fillRect(0, 0, 500, 500);
+
+const game = new GameView(ctx);
+  game.start();
 
 window.MovingObject = new MovingObject({pos: [30, 30], vel: [2, 0],
                                        radius: 5, color: "#00FF00"});
@@ -151,11 +209,11 @@ window.MovingObject = new MovingObject({pos: [30, 30], vel: [2, 0],
 
 
 window.MovingObjects = new Array;
-window.MovingObjects.push(new Asteroid([50,50]));
-window.MovingObjects.push(new Asteroid([50,50]));
-window.MovingObjects.push(new Asteroid([50,50]));
-window.MovingObjects.push(new Asteroid([50,50]));
-window.MovingObjects.push(new Asteroid([50,50]));
+window.MovingObjects.push(new Asteroid([30,30]));
+window.MovingObjects.push(new Asteroid([30,30]));
+window.MovingObjects.push(new Asteroid([30,30]));
+window.MovingObjects.push(new Asteroid([30,30]));
+window.MovingObjects.push(new Asteroid([30,30]));
 
 function animate() {
   // game.advanceState();
@@ -170,7 +228,7 @@ function animate() {
   window.MovingObject.move();
   for (var i = 0; i < window.MovingObjects.length; i++) {
     window.MovingObjects[i].draw(ctx);
-    window.MovingObjects[i].move(); 
+    window.MovingObjects[i].move();
   }
   requestAnimationFrame(animate);
 }
@@ -184,6 +242,25 @@ requestAnimationFrame(animate);
 /***/ (function(module, exports, __webpack_require__) {
 
 let Game = __webpack_require__(2);
+let Ship = __webpack_require__(3);
+
+const GameView = function(ctx) {
+  this.ctx = ctx;
+  this.game = new Game(ctx.canvas.clientWidth, ctx.canvas.clientHeight);
+  this.ship = new Ship();
+};
+
+GameView.prototype.run = function() {
+  this.game.moveObjects();
+  this.game.draw();
+};
+
+GameView.prototype.start = function() {
+  setInterval(this.run, 1000/60);
+};
+
+
+module.exports = GameView;
 
 
 /***/ }),
