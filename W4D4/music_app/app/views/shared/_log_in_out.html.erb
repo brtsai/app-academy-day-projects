@@ -1,0 +1,19 @@
+<% if logged_in? %>
+  <form action="<%= session_url %>" method="post">
+    <input type="hidden" name="_method" value="delete">
+    <input type="submit" value="Logout">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  </form>
+<% else %>
+  <form action="<%= new_session_url %>" method="post">
+    <input type="hidden" name="_method" value="get">
+    <input type="submit" value="login">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  </form>
+
+  <form action="<%= new_user_url %>", method="post">
+    <input type="hidden" name="_method" value="get">
+    <input type="submit" value="signup">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  </form>
+<% end %>

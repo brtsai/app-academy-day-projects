@@ -1,0 +1,11 @@
+<header>
+  <h2> Edit <%= @band.name %></h2>
+
+  <form action="<%= band_url %>" method="post">
+    <input type="hidden" name="_method" value="delete">
+    <input class="delete-button" type="submit" value="Delete">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  </form>
+</header>
+<%= render 'shared/errors' %>
+<%= render 'form' %>
