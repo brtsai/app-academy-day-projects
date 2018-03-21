@@ -1,3 +1,5 @@
+const APIUtil = require('./api_util.js');
+
 const FollowToggle = function($el) {
 	this.userId = $el.data('user-id');
 	this.followState = $el.data('initial-follow-state');
@@ -22,28 +24,32 @@ FollowToggle.prototype.render = function() {
 	}
 };
 
-FollowToggle.prototype.handleClick = async function() {
-	let method;
+FollowToggle.prototype.handleClick = function() {
+	let followPromise;
 
 	if (this.followState === 'unfollowed') {
-		method = 'post';
+		followPromise = APIUtil.followUser(this.userId);
 	} else {
-		method = 'delete';
+		followPromise = APIUtil.unfollowUser(this.userId);
 	}
 
-	const followTogglePromise = await $.ajax({
-		method: method,
-		url: `/users/${this.userId}/follow`,
-		dataType: 'json'
+	const followToggle = this;
+
+	followPromise.then(function() {
+		followToggle._enableButton();
+		followToggle._toggle();
+		followToggle.render();
 	});
 
-	// followTogglePromise.then(() => {
-	// 	this._toggle();
-	// 	this.render();
-	// });
+	this._disableButton();
+};
 
-	this._toggle();
-	this.render();
+FollowToggle.prototype._disableButton = function() {
+	this.$el.prop('disabled', true);
+};
+
+FollowToggle.prototype._enableButton = function() {
+	this.$el.prop('disabled', false);
 };
 
 FollowToggle.prototype._toggle = function() {

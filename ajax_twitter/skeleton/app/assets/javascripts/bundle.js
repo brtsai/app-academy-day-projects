@@ -79,7 +79,9 @@ $(() => {
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+const APIUtil = __webpack_require__(2);
 
 const FollowToggle = function($el) {
 	this.userId = $el.data('user-id');
@@ -105,28 +107,32 @@ FollowToggle.prototype.render = function() {
 	}
 };
 
-FollowToggle.prototype.handleClick = async function() {
-	let method;
+FollowToggle.prototype.handleClick = function() {
+	let followPromise;
 
 	if (this.followState === 'unfollowed') {
-		method = 'post';
+		followPromise = APIUtil.followUser(this.userId);
 	} else {
-		method = 'delete';
+		followPromise = APIUtil.unfollowUser(this.userId);
 	}
 
-	const followTogglePromise = await $.ajax({
-		method: method,
-		url: `/users/${this.userId}/follow`,
-		dataType: 'json'
+	const followToggle = this;
+
+	followPromise.then(function() {
+		followToggle._enableButton();
+		followToggle._toggle();
+		followToggle.render();
 	});
 
-	// followTogglePromise.then(() => {
-	// 	this._toggle();
-	// 	this.render();
-	// });
+	this._disableButton();
+};
 
-	this._toggle();
-	this.render();
+FollowToggle.prototype._disableButton = function() {
+	this.$el.prop('disabled', true);
+};
+
+FollowToggle.prototype._enableButton = function() {
+	this.$el.prop('disabled', false);
 };
 
 FollowToggle.prototype._toggle = function() {
@@ -138,6 +144,31 @@ FollowToggle.prototype._toggle = function() {
 };
 
 module.exports = FollowToggle;
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports) {
+
+const APIUtil = {
+	followUser: id => {
+		return $.ajax({
+			method: 'post',
+			url: `/users/${id}/follow`,
+			dataType: 'json'
+		});
+	},
+
+	unfollowUser: id => {
+		return $.ajax({
+			method: 'delete',
+			url: `/users/${id}/follow`,
+			dataType: 'json'
+		});
+	}
+};
+
+module.exports = APIUtil;
 
 
 /***/ })
