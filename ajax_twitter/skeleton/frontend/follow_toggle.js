@@ -28,14 +28,14 @@ FollowToggle.prototype.handleClick = function() {
 	let followPromise;
 
 	if (this.followState === 'unfollowed') {
-		followPromise = APIUtil.followUser(this.userId);
+		followPromise = APIUtil.followUser;
 	} else {
-		followPromise = APIUtil.unfollowUser(this.userId);
+		followPromise = APIUtil.unfollowUser;
 	}
 
 	const followToggle = this;
 
-	followPromise.then(function() {
+	followPromise(this.userId).then(function() {
 		followToggle._enableButton();
 		followToggle._toggle();
 		followToggle.render();

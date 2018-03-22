@@ -68,11 +68,16 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 const FollowToggle = __webpack_require__(1);
+const UsersSearch = __webpack_require__(3);
 
 $(() => {
 	$('.follow-toggle').each(function(index, el) {
 		let $el = $(el);
 		new FollowToggle($el);
+	});
+
+	$('nav.users-search').each(function(index, el) {
+		new UsersSearch(el);
 	});
 });
 
@@ -111,14 +116,14 @@ FollowToggle.prototype.handleClick = function() {
 	let followPromise;
 
 	if (this.followState === 'unfollowed') {
-		followPromise = APIUtil.followUser(this.userId);
+		followPromise = APIUtil.followUser;
 	} else {
-		followPromise = APIUtil.unfollowUser(this.userId);
+		followPromise = APIUtil.unfollowUser;
 	}
 
 	const followToggle = this;
 
-	followPromise.then(function() {
+	followPromise(this.userId).then(function() {
 		followToggle._enableButton();
 		followToggle._toggle();
 		followToggle.render();
@@ -169,6 +174,19 @@ const APIUtil = {
 };
 
 module.exports = APIUtil;
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports) {
+
+class UsersSearch {
+	constructor(el) {
+		this.$el = $(el);
+		this.$input = this.$el.find('input');
+		this.$usersList = this.$el.find('ul');
+	}
+}
 
 
 /***/ })
