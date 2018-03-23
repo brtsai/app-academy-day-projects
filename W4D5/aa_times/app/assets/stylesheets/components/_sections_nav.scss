@@ -1,0 +1,17 @@
+.sections-nav {
+  width: 600px;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+    ul {
+      display: flex;
+      li {
+        font-size: 10px;
+        margin: 7px;
+      a:hover {
+        background-color: $gray;
+      }
+    }
+
+  }
+}
