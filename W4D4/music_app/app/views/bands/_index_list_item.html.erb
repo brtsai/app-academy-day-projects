@@ -1,0 +1,10 @@
+<ul>
+  <section>
+    <li> <a href="<%= band_url(band.id) %>"><%= band.name %></a></li>
+    <form action="<%= edit_band_url(band.id) %>" method="post">
+      <input type="hidden" name="_method" value="get">
+      <input type="submit" value="edit">
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    </form>
+  </section>
+</ul>

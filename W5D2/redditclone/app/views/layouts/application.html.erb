@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Redditclone</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
+  </head>
+
+  <body>
+    <%= render 'shared/welcome_message'%>
+    <%= render 'shared/log_buttons'%>
+    <%= render 'shared/errors' %>
+    <%= yield %>
+  </body>
+</html>
