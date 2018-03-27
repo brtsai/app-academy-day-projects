@@ -1,0 +1,61 @@
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1 {
+  font-size: 60px;
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.hanoi {
+  display: flex;
+  flex-direction: row;
+}
+
+ul {
+  list-style: none;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0;
+  align-items: center;
+
+}
+
+ul:hover::after {
+  background-color: blue;
+}
+
+ul::after {
+  content: "";
+  background-color: black;
+  height: 10px;
+  width: 180px;
+  margin-top: 15px;
+}
+
+li {
+  height: 50px;
+  border-radius: 25px;
+  margin: 5px;
+}
+
+.disk-1 {
+  background-color: gray;
+  width: 30%;
+}
+
+.disk-2 {
+  background-color: gray;
+  width: 60%;
+}
+
+.disk-3 {
+  background-color: gray;
+  width: 90%;
+}

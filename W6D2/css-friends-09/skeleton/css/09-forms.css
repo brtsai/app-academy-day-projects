@@ -1,0 +1,76 @@
+/* PHASE 9: Forms */
+
+.create-post {
+  display: flex;
+}
+
+.wall-post-thumbnail {
+  display: inline-block;
+  width: 60px;
+  height: 60px;
+}
+
+
+.wall-post-form {
+  display: flex;
+  flex-direction: column;
+  background-color: #eee;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-left: 20px;
+  padding: 20px;
+  width: 500px;
+}
+
+.input-label {
+  font-weight: 700;
+  margin: 10px 0px;
+}
+
+.input-title {
+  height: 20px;
+}
+
+.input-body {
+  background-color: #fff;
+  height: 120px;
+}
+
+.input {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  margin: 10px 0px;
+  width: 480px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.submit-buttons {
+  display: flex;
+  align-items: center;
+}
+
+.submit-el {
+  padding: 10px;
+}
+
+.submit-post {
+  background-color: #0c0;
+  box-shadow: 2px 2px 2px #070;
+  border-radius: 5px;
+  color: white;
+  font-weight: 700;
+  padding: 10px;
+}
+.submit-post:hover {
+  background-color: #0a0;
+}
+
+.submit-cancel {
+  font-weight: 700;
+}
+.submit-cancel:hover {
+  color: #f00;
+}
