@@ -24,6 +24,10 @@ class TodoList extends React.Component {
       </div>
     );
   }
+
+  componentDidMount() {
+    this.props.fetchTodos();
+  }
 }
 
 export default TodoList;
