@@ -86,31 +86,13 @@ var _root = __webpack_require__(65);
 
 var _root2 = _interopRequireDefault(_root);
 
-var _api_util = __webpack_require__(28);
-
-var _pokemon_actions = __webpack_require__(27);
-
-var _selectors = __webpack_require__(56);
-
-var _selectors2 = _interopRequireDefault(_selectors);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-//TODO: remove stuff set on window used for testing
 
 document.addEventListener('DOMContentLoaded', function () {
   var root = document.getElementById('root');
   var store = (0, _store2.default)();
-  window.getState = store.getState;
-  window.dispatch = store.dispatch;
-  window.receiveAllPokemon = _pokemon_actions.receiveAllPokemon;
-  window.fetchAllPokemon = _api_util.fetchAllPokemon;
-  window.requestAllPokemon = _pokemon_actions.requestAllPokemon;
-  window.selectAllPokemon = _selectors2.default;
   _reactDom2.default.render(_react2.default.createElement(_root2.default, { store: store }), root);
 });
-
-//for testing
 
 /***/ }),
 /* 1 */
@@ -38645,7 +38627,7 @@ var PokemonIndex = function (_React$Component) {
         this.props.pokemon.map(function (poke) {
           return _react2.default.createElement(
             'li',
-            null,
+            { key: poke.id + poke.name },
             ' ',
             poke.name,
             ' ',
