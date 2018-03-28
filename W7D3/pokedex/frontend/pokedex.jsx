@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import configureStore from './store/store';
 import { fetchAllPokemon } from './util/api_util';
 import { receiveAllPokemon, RECEIVE_ALL_POKEMON, requestAllPokemon } from './actions/pokemon_actions';
+import selectAllPokemon from './reducers/selectors';
 
 //TODO: remove stuff set on window used for testing
 
@@ -14,5 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
   window.receiveAllPokemon = receiveAllPokemon;
   window.fetchAllPokemon = fetchAllPokemon;
   window.requestAllPokemon = requestAllPokemon;
+  window.selectAllPokemon = selectAllPokemon;
   ReactDOM.render(<h1>Pokedex</h1>, rootEl);
 });
