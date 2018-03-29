@@ -1,7 +1,9 @@
 import _ from 'lodash';
 
-const selectAllPokemon = (state) => {
+export const selectAllPokemon = (state) => {
   return _.values(state.entities.pokemon);
 };
 
-export default selectAllPokemon;
+export const selectSinglePokemon = (state, pokeId) => {
+  return _.values(state.entities.pokemon[pokeId]);
+};
