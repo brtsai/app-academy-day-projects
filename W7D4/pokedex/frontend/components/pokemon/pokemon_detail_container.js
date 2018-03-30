@@ -1,14 +1,15 @@
 import { connect } from 'react-redux';
 import { requestSinglePokemon } from '../../actions/pokemon_actions';
 import PokemonDetail from './pokemon_detail';
-import { selectSinglePokemon } from '../../reducers/selectors';
+import { selectSinglePokemon, selectItemsForSinglePokemon } from '../../reducers/selectors';
 import { withRouter } from 'react-router-dom';
 
 const mapStateToProps = (state, ownProps) => {
-
+  const pokeId = ownProps.match.params.pokeId;
   return ({
     // piece of state that container subscribes to
-    pokemon: state.entities.pokemon[ownProps.match.params.pokeId],
+    pokemon: selectSinglePokemon(state,pokeId),
+    items: selectItemsForSinglePokemon(state, pokeId),
     errors: state.errors
   });
 };

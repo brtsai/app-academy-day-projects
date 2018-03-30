@@ -5,7 +5,8 @@ const itemsReducer = (state = {}, action) => {
   Object.freeze(state);
   switch(action.type) {
     case RECEIVE_SINGLE_POKEMON:
-      return action.pokemon.items;
+      const newState = merge({}, state, action.pokemon.items);
+      return newState;
 
     default:
       return state;

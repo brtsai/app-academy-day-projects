@@ -3446,6 +3446,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var store = (0, _store2.default)();
 
   window.APIUtil = APIUtil;
+  window.getState = store.getState;
   _reactDom2.default.render(_react2.default.createElement(_root2.default, { store: store }), root);
 });
 
@@ -21366,10 +21367,15 @@ var _pokemon_reducer = __webpack_require__(79);
 
 var _pokemon_reducer2 = _interopRequireDefault(_pokemon_reducer);
 
+var _items_reducer = __webpack_require__(129);
+
+var _items_reducer2 = _interopRequireDefault(_items_reducer);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var entitiesReducer = (0, _redux.combineReducers)({
-  pokemon: _pokemon_reducer2.default
+  pokemon: _pokemon_reducer2.default,
+  items: _items_reducer2.default
 });
 
 exports.default = entitiesReducer;
@@ -22813,7 +22819,7 @@ exports.default = PokemonIndex;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.selectSinglePokemon = exports.selectAllPokemon = undefined;
+exports.selectItemsForSinglePokemon = exports.selectSinglePokemon = exports.selectAllPokemon = undefined;
 
 var _lodash = __webpack_require__(97);
 
@@ -22827,6 +22833,17 @@ var selectAllPokemon = exports.selectAllPokemon = function selectAllPokemon(stat
 
 var selectSinglePokemon = exports.selectSinglePokemon = function selectSinglePokemon(state, pokeId) {
   return _lodash2.default.values(state.entities.pokemon[pokeId]);
+};
+
+var selectItemsForSinglePokemon = exports.selectItemsForSinglePokemon = function selectItemsForSinglePokemon(state, pokeId) {
+  var items = [];
+  if (state.entities.pokemon[pokeId] !== undefined) {
+    var itemIds = state.entities.pokemon[pokeId].item_ids;
+    items = itemIds.map(function (itemId) {
+      return state.entities.items[itemId];
+    });
+  }
+  return items;
 };
 
 /***/ }),
@@ -43054,9 +43071,9 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _items_container = __webpack_require__(128);
+var _pokemon_index_item = __webpack_require__(125);
 
-var _items_container2 = _interopRequireDefault(_items_container);
+var _pokemon_index_item2 = _interopRequireDefault(_pokemon_index_item);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -43079,15 +43096,20 @@ var PokemonDetail = function (_React$Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       var pokeId = this.props.match.params.pokeId;
-
+      debugger;
       this.props.requestSinglePokemon(pokeId);
     }
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps() {}
   }, {
     key: 'render',
     value: function render() {
       if (this.props.pokemon === undefined) {
         return _react2.default.createElement('div', null);
       }
+
+      console.log(this.props.pokemon);
       return _react2.default.createElement(
         'ul',
         { key: this.props.pokemon.id + this.props.pokemon.name },
@@ -43129,7 +43151,12 @@ var PokemonDetail = function (_React$Component) {
           this.props.pokemon.moves,
           ' '
         ),
-        _react2.default.createElement(_items_container2.default, null)
+        _react2.default.createElement(
+          'h3',
+          null,
+          ' Items '
+        ),
+        _react2.default.createElement('ul', null)
       );
     }
   }]);
@@ -43165,10 +43192,11 @@ var _reactRouterDom = __webpack_require__(99);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
-
+  var pokeId = ownProps.match.params.pokeId;
   return {
     // piece of state that container subscribes to
-    pokemon: state.entities.pokemon[ownProps.match.params.pokeId],
+    pokemon: (0, _selectors.selectSinglePokemon)(state, pokeId),
+    items: (0, _selectors.selectItemsForSinglePokemon)(state, pokeId),
     errors: state.errors
   };
 };
@@ -43184,10 +43212,37 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 exports.default = (0, _reactRouterDom.withRouter)((0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_pokemon_detail2.default));
 
 /***/ }),
-/* 128 */
-/***/ (function(module, exports) {
+/* 128 */,
+/* 129 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _pokemon_actions = __webpack_require__(35);
+
+var _lodash = __webpack_require__(97);
+
+var itemsReducer = function itemsReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var action = arguments[1];
+
+  Object.freeze(state);
+  switch (action.type) {
+    case _pokemon_actions.RECEIVE_SINGLE_POKEMON:
+      var newState = (0, _lodash.merge)({}, state, action.pokemon.items);
+      return newState;
+
+    default:
+      return state;
+  }
+};
+
+exports.default = itemsReducer;
 
 /***/ })
 /******/ ]);
